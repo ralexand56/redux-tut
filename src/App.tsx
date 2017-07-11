@@ -4,6 +4,7 @@ import { Motion, StaggeredMotion, PlainStyle, spring, presets } from 'react-moti
 
 interface State {
     activeTopicID: number;
+    alternate: boolean;
 }
 
 interface Topic {
@@ -43,7 +44,7 @@ export default class App extends React.Component<{}, State> {
     constructor() {
         super();
 
-        this.state = { activeTopicID: 1 };
+        this.state = { activeTopicID: 1, alternate: true };
     }
 
     handleKeyUp = (e: KeyboardEvent) => {
@@ -54,6 +55,12 @@ export default class App extends React.Component<{}, State> {
         if (e.keyCode === 37 && this.state.activeTopicID > 1) {
             this.setState({ activeTopicID: this.state.activeTopicID - 1 });
         }
+    }
+
+    handleRest = () => {
+        window.setTimeout(() => {
+            this.setState({ ...this.state, alternate: !this.state.alternate });
+        },                0);
     }
 
     componentWillMount() {
@@ -67,7 +74,7 @@ export default class App extends React.Component<{}, State> {
                     (<Motion
                         key={t.id}
                         defaultStyle={{ height: 100, opacity: 0 }}
-                        style={{ height: spring(0, presets.wobbly), opacity: spring(1.0) }}
+                        style={{ height: spring(this.state.alternate ? 0 : 100, presets.wobbly), opacity: spring(1.0) }}
                     >
                         {value =>
                             <h1
