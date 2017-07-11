@@ -1,6 +1,6 @@
 import * as React from 'react';
 import './App.css';
-import { Motion, spring, presets } from 'react-motion';
+import { Motion, StaggeredMotion, PlainStyle, spring, presets } from 'react-motion';
 
 interface State {
     activeTopicID: number;
@@ -72,14 +72,31 @@ export default class App extends React.Component<{}, State> {
                         {value =>
                             <h1
                                 style={
-                                    { 
-                                      opacity: value.opacity, 
-                                      transform: `translateY(${value.height}px)`, 
-                                      overflow: 'hidden' }}
+                                    {
+                                        opacity: value.opacity,
+                                        transform: `translateY(${value.height}px)`,
+                                        overflow: 'hidden'
+                                    }}
                             >
                                 {t.id}. {t.title}
                             </h1>}
                     </Motion>))}
+                <StaggeredMotion
+                    defaultStyles={[{ h: 0 }, { h: 0 }, { h: 0 }]}
+                    styles={prevInterpolatedStyles => prevInterpolatedStyles!.map((_, i) => {
+                        return i === 0
+                            ? { h: spring(100) }
+                            : { h: spring(prevInterpolatedStyles![i - 1].h) };
+                    })}
+                >
+                    {(interpolatingStyles: PlainStyle[]) =>
+                        <div>
+                            {interpolatingStyles.map((style, i: number) =>
+                                <div key={i} style={{ border: '1px solid', margin: 5, height: style.h }} />)
+                            }
+                        </div>
+                    }
+                </StaggeredMotion>
             </div>
         );
     }
