@@ -1,1 +1,1 @@
-# redux-tut
+# Outline for a React Redux Tutorial
