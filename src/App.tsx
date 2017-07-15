@@ -60,7 +60,7 @@ export default class App extends React.Component<{}, State> {
     handleRest = () => {
         window.setTimeout(() => {
             this.setState({ ...this.state, alternate: !this.state.alternate });
-        },                0);
+        }, 0);
     }
 
     componentWillMount() {
@@ -88,6 +88,10 @@ export default class App extends React.Component<{}, State> {
                                 {t.id}. {t.title}
                             </h1>}
                     </Motion>))}
+                <ul >
+                                    {
+                                        topics.map(t => <li>{t.title}</li>)}
+                </ul>
                 <StaggeredMotion
                     defaultStyles={[{ h: 0 }, { h: 0 }, { h: 0 }]}
                     styles={prevInterpolatedStyles => prevInterpolatedStyles!.map((_, i) => {
