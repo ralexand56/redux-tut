@@ -10,6 +10,7 @@
   },
   "devDependencies": {
     "@types/node": "^8.0.1",
+    "@types/react-dom": "^15.5.1",
     "@types/react-hot-loader": "^3.0.1",
     "@types/react-motion": "0.0.23",
     "@types/webpack-env": "^1.13.0",
