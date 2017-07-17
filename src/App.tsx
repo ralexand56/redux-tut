@@ -1,6 +1,8 @@
 import * as React from 'react';
 import './App.css';
-import { Motion, StaggeredMotion, PlainStyle, spring, presets } from 'react-motion';
+import { Motion, spring, presets } from 'react-motion';
+import Staggered from './Staggered';
+import ArcControl from './ArcControl';
 
 interface State {
     activeTopicID: number;
@@ -58,9 +60,9 @@ export default class App extends React.Component<{}, State> {
     }
 
     handleRest = () => {
-        window.setTimeout(() => {
-            this.setState({ ...this.state, alternate: !this.state.alternate });
-        },                0);
+        // window.setTimeout(() => {
+        //     this.setState({ ...this.state, alternate: !this.state.alternate });
+        // }, 0);
     }
 
     componentWillMount() {
@@ -85,25 +87,15 @@ export default class App extends React.Component<{}, State> {
                                         overflow: 'hidden'
                                     }}
                             >
-                                {t.id}. {t.title}
-                            </h1>}
+                                <Staggered textSize={1}>
+                                    {`${t.id}. ${t.title}`}
+                                </Staggered>
+                            </h1>
+                        }
                     </Motion>))}
-                <StaggeredMotion
-                    defaultStyles={[{ h: 0 }, { h: 0 }, { h: 0 }]}
-                    styles={prevInterpolatedStyles => prevInterpolatedStyles!.map((_, i) => {
-                        return i === 0
-                            ? { h: spring(100) }
-                            : { h: spring(prevInterpolatedStyles![i - 1].h) };
-                    })}
-                >
-                    {(interpolatingStyles: PlainStyle[]) =>
-                        <div>
-                            {interpolatingStyles.map((style, i: number) =>
-                                <div key={i} style={{ border: '1px solid', margin: 5, height: style.h }} />)
-                            }
-                        </div>
-                    }
-                </StaggeredMotion>
+                <ArcControl
+                    pct={89}
+                />
             </div>
         );
     }
