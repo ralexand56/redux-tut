@@ -56,15 +56,15 @@ export default class ArcControl extends Component<Props, {}> {
                             <g>
                                 <path
                                     fill="transparent"
-                                    stroke="#ccc"
+                                    stroke={this.getColor(interpolatingStyle.endAngle)}
                                     strokeLinecap="round"
                                     strokeWidth={sw}
                                     d={this.describeArc(cx, cy, r, 0, interpolatingStyle.endAngle)}
                                 />
                                 <text
-                                    x={cx - 30}
-                                    y={cy + 10}
-                                    fontSize="2em"
+                                    x={cx - 20}
+                                    y={cy + 8}
+                                    fontSize="1.5em"
                                     stroke="black"
                                 >
                                     {pct}%
@@ -83,6 +83,20 @@ export default class ArcControl extends Component<Props, {}> {
             x: centerX + (radius * Math.cos(angleInRadians)),
             y: centerY + (radius * Math.sin(angleInRadians))
         };
+    }
+
+    getColor(val: number): string {
+        let col = '#f00';
+
+        if (val > 130) {
+            col = '#faff00';
+        }
+
+        if (val > 270) {
+            col = '#0f0';
+        }
+        
+        return col;
     }
 
     describeArc = (x: number, y: number, radius: number, startAngle: number, endAngle: number) => {
