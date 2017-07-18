@@ -46,7 +46,8 @@ export default class ArcControl extends Component<Props, {}> {
                 <Motion
                     defaultStyle={{ endAngle: 0 }}
                     style={{
-                        endAngle: spring(deg,
+                        endAngle: spring(
+                            deg,
                             presets.noWobble,
                         )
                     }}

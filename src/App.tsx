@@ -1,6 +1,7 @@
 import * as React from 'react';
 import './App.css';
 import { Motion, spring, presets } from 'react-motion';
+import Stagger from './Stagger';
 import Staggered from './Staggered';
 import ArcControl from './ArcControl';
 
@@ -93,9 +94,17 @@ export default class App extends React.Component<{}, State> {
                             </h1>
                         }
                     </Motion>))}
-                <ArcControl
-                    pct={89}
-                />
+                <Stagger>
+                    <ArcControl
+                        pct={89}
+                    />
+                    <ArcControl
+                        pct={29}
+                    />
+                    <ArcControl
+                        pct={50}
+                    />
+                </Stagger>
             </div>
         );
     }
