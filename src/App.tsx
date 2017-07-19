@@ -5,6 +5,7 @@ import './App.css';
 import { Motion, spring, presets } from 'react-motion';
 import Stagger from './Stagger';
 import Staggered from './Staggered';
+import ArcControl from './ArcControl';
 // import ArcControl from './ArcControl';
 import Page from './pages';
 import { Lie } from './pages';
@@ -46,10 +47,6 @@ export interface NextPageAction {
 export interface PreviousPageAction {
     type: 'PREVIOUS_PAGE';
 }
-
-const nextPage = (maxPage) => {
-    
-};
 
 const topics: { [id: number]: Topic } = {
     1: {
@@ -134,27 +131,6 @@ export default class App extends React.Component<{}, State> {
                 {
                     activeTopic.pages && activeTopic.pages[0]
                 }
-                {topics.map(t => this.state.activeTopicID === t.id &&
-                    (<Motion
-                        key={t.id}
-                        defaultStyle={{ height: 100, opacity: 0 }}
-                        style={{ height: spring(this.state.alternate ? 0 : 100, presets.wobbly), opacity: spring(1.0) }}
-                    >
-                        {value =>
-                            <h1
-                                style={
-                                    {
-                                        opacity: value.opacity,
-                                        transform: `translateY(${value.height}px)`,
-                                        overflow: 'hidden'
-                                    }}
-                            >
-                                <Staggered textSize={1}>
-                                    {`${t.id}. ${t.title}`}
-                                </Staggered>
-                            </h1>
-                        }
-                    </Motion>))}
                 <Stagger>
                     <ArcControl
                         pct={89}
