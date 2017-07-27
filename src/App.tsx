@@ -1,13 +1,16 @@
 import * as React from 'react';
-import './App.css';
-import { Motion, spring, presets } from 'react-motion';
-import Stagger from './Stagger';
 import Staggered from './Staggered';
 import ArcControl from './ArcControl';
+import './App.css';
+import Iconic from './Iconic';
+import { Motion, spring, presets } from 'react-motion';
+import Stagger from './Stagger';
+import StretchPanel from './StretchPanel';
 
 interface State {
     activeTopicID: number;
     alternate: boolean;
+    isOpen: boolean;
 }
 
 interface Topic {
@@ -47,7 +50,7 @@ export default class App extends React.Component<{}, State> {
     constructor() {
         super();
 
-        this.state = { activeTopicID: 1, alternate: true };
+        this.state = { activeTopicID: 1, alternate: true, isOpen: true };
     }
 
     handleKeyUp = (e: KeyboardEvent) => {
@@ -94,6 +97,31 @@ export default class App extends React.Component<{}, State> {
                             </h1>
                         }
                     </Motion>))}
+                <Iconic
+                    text="IR"
+                    fontSize={1.5}
+                    backgroundColor="pink"
+                    borderColor="red"
+                />
+                <StretchPanel
+                    title="Department Databases"
+                    isExpanded={this.state.isOpen}
+                >
+                        <p>
+                            How are you doing this?
+                        </p>
+                </StretchPanel>
+                <pre style={{ backgroundColor: '#ccc', borderLeft: '7px solid', padding: 10, borderRadius: 5 }}>
+                    <code>
+                        {`<VideoPlayer
+                            ref="videoplayer"
+                            preload={this.props.preload}
+                            classes={this.props.classes}
+                            videoID={this.props.videoID}
+                            controls="controls"
+                        />`}
+                    </code>
+                </pre>
                 <Stagger>
                     <ArcControl
                         pct={89}
