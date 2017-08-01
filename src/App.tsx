@@ -1,9 +1,23 @@
 import * as React from 'react';
+<<<<<<< HEAD
+import Staggered from './Staggered';
+import ArcControl from './ArcControl';
+=======
 import * as Redux from 'redux';
 // import { Action } from 'redux';
+>>>>>>> 9b1e84d5ef37a691212f79b8e3e7d1beceb930ab
 import './App.css';
+import Iconic from './Iconic';
 import { Motion, spring, presets } from 'react-motion';
 import Stagger from './Stagger';
+<<<<<<< HEAD
+import StretchPanel from './StretchPanel';
+
+interface State {
+    activeTopicID: number;
+    alternate: boolean;
+    isOpen: boolean;
+=======
 import Staggered from './Staggered';
 import ArcControl from './ArcControl';
 // import ArcControl from './ArcControl';
@@ -16,6 +30,7 @@ interface State {
     currPageNo: number;
     max: number;
     topics: { [id: number]: Topic };
+>>>>>>> 9b1e84d5ef37a691212f79b8e3e7d1beceb930ab
 }
 
 interface Topic {
@@ -79,6 +94,9 @@ export default class App extends React.Component<{}, State> {
     constructor() {
         super();
 
+<<<<<<< HEAD
+        this.state = { activeTopicID: 1, alternate: true, isOpen: true };
+=======
         this.store = Redux.createStore(this.pager, composeWithDevTools());
 
         this.state = this.store.getState();
@@ -87,6 +105,7 @@ export default class App extends React.Component<{}, State> {
 
     handleStateChanges = () => {
         this.setState(this.store.getState());
+>>>>>>> 9b1e84d5ef37a691212f79b8e3e7d1beceb930ab
     }
 
     handleKeyUp = (e: KeyboardEvent) => {
@@ -108,6 +127,54 @@ export default class App extends React.Component<{}, State> {
 
         return (
             <div className="App">
+<<<<<<< HEAD
+                {topics.map(t => this.state.activeTopicID === t.id &&
+                    (<Motion
+                        key={t.id}
+                        defaultStyle={{ height: 100, opacity: 0 }}
+                        style={{ height: spring(this.state.alternate ? 0 : 100, presets.wobbly), opacity: spring(1.0) }}
+                    >
+                        {value =>
+                            <h1
+                                style={
+                                    {
+                                        opacity: value.opacity,
+                                        transform: `translateY(${value.height}px)`,
+                                        overflow: 'hidden'
+                                    }}
+                            >
+                                <Staggered textSize={1}>
+                                    {`${t.id}. ${t.title}`}
+                                </Staggered>
+                            </h1>
+                        }
+                    </Motion>))}
+                <Iconic
+                    text="IR"
+                    fontSize={1.5}
+                    backgroundColor="pink"
+                    borderColor="red"
+                />
+                <StretchPanel
+                    title="Department Databases"
+                    isExpanded={this.state.isOpen}
+                >
+                        <p>
+                            How are you doing this?
+                        </p>
+                </StretchPanel>
+                <pre style={{ backgroundColor: '#ccc', borderLeft: '7px solid', padding: 10, borderRadius: 5 }}>
+                    <code>
+                        {`<VideoPlayer
+                            ref="videoplayer"
+                            preload={this.props.preload}
+                            classes={this.props.classes}
+                            videoID={this.props.videoID}
+                            controls="controls"
+                        />`}
+                    </code>
+                </pre>
+=======
                 <Motion
                     key={activeTopic.id}
                     defaultStyle={{ height: 30, opacity: 0 }}
@@ -131,6 +198,7 @@ export default class App extends React.Component<{}, State> {
                 {
                     activeTopic.pages && activeTopic.pages[0]
                 }
+>>>>>>> 9b1e84d5ef37a691212f79b8e3e7d1beceb930ab
                 <Stagger>
                     <ArcControl
                         pct={89}
