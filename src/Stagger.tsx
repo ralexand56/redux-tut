@@ -16,11 +16,30 @@ export default class Stagger extends Component<{}, {}> {
             return null;
         }
 
+        if (typeof children === 'string') {
+            return null;
+        }
+
         return (
             <div>
                 {
-                    children && children.map((child, i) => <div key={i} className="gs">{child}</div>)}
+                    this.renderChildren(React.Children.toArray(children))
+                }
             </div>
         );
+    }
+
+    renderChildren(children: React.ReactChild[]) {
+        if (!children) {
+            return null;
+        }
+
+        return children.map((child: React.ReactChild, i) => {
+            if (typeof child === 'string' || typeof child === 'number') {
+                return null;
+            }
+
+            return React.cloneElement(child, {...child.props,  key: i, className: 'gs' });
+        });
     }
 }
