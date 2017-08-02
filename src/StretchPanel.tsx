@@ -27,7 +27,7 @@ export default class StretchPanel extends Component<Props, AppState> {
     constructor() {
         super();
 
-        this.state = { isOpen: true };
+        this.state = { isOpen: false };
     }
 
     handleIsOpen = () => {
