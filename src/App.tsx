@@ -86,7 +86,7 @@ const topics: {
     id: 5,
     title: 'React Redux Best Practices',
   },
-};
+}; /*? topics.length */
 
 export default class App extends React.Component<
   {},
