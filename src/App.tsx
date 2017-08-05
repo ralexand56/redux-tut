@@ -171,6 +171,10 @@ export default class App extends React.Component<
         <StretchPanel title="Home" isExpanded={false}>
           <Iconic text="ME" />
         </StretchPanel>
+        <h4>
+          {
+            JSON.stringify(topicArr.filter(({title}) => /The/.test(title)))}
+        </h4>
        <h4> {JSON.stringify(topicStartsWith('The', topicArr))}</h4>
        <h4> {JSON.stringify(topics[1])}</h4>
       </div>
