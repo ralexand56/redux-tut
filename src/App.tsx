@@ -119,10 +119,12 @@ export const insts = [{
   ]
 }, {
   id: 2,
-  name: 'Citibank'
+  name: 'Citibank',
+  Regions: [],
 }, {
   id: 3,
-  name: 'Regions'
+  name: 'Regions',
+  Regions: [],
 }
 ];
 
@@ -135,13 +137,33 @@ interface TreeMeta {
 export const treeMetas: TreeMeta[] = [{ id: 'id', nameField: 'name', arrayField: '' },
 { id: 'statecode', nameField: 'name', arrayField: 'Regions' }, ];
 
-export const renderTree = (root: {}, meta: TreeMeta[]) => {
-  return meta.map((tm: TreeMeta, ind: number) => renderTreeLevel(root[0][tm.arrayField], tm));
+export const renderTree = (root: {}[], meta: TreeMeta[]) => {
+    const data: {}[] = [];
+
+    meta.map((tm: TreeMeta, ind: number) => (ind === 0)
+        ? renderTreeLevel(root, tm, data, ind)
+        : renderTreeLevel(root[0][tm.arrayField], tm, data, ind));
+
+    return data;
 };
 
-export const renderTreeLevel = (arr: {}[], { id, nameField, arrayField }: TreeMeta) =>
-  arr.map(a => <h2 key={a[id]}>{a[nameField]}</h2>);
+export const renderTreeLevel = (arr: {}[], { id, nameField, arrayField }: TreeMeta, data: {}[], level: number) => {
+  let currlevel = null;
+  let renderChildren = false;
 
+  // (currlevel !== level) ? data.push(<select />) : renderChildren = true;
+
+  return (
+    <select>
+      {
+arr.map(a => data.push(
+  <h2 key={a[id]}>{a[nameField]}</h2>
+));
+    }
+</select>
+  );
+};
+  
 export default class App extends React.Component<
   {},
   State
@@ -233,9 +255,8 @@ export default class App extends React.Component<
         <h4> {JSON.stringify(topics[1])}</h4>
 
         {
-          console.dir(insts[0]['Regions'])
-          // renderTree({ insts }, treeMetas)
-        }
+          // console.dir(insts[0]['Regions'])
+          renderTree(insts, treeMetas)}
       </div>
     );
   }
