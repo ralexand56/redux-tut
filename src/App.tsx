@@ -10,12 +10,12 @@ import {
 } from 'react-motion';
 import StretchPanel from './StretchPanel';
 
-export const  getStringValue = (prop: string, obj: {}): string => obj[prop];
-export const nameContains = (prop: string, val: string, list: {}[]) => 
-    list.filter(x => getStringValue(prop, x).includes(val));
+export const getStringValue = (prop: string, obj: {}): string => obj[prop];
+export const nameContains = (prop: string, val: string, list: {}[]) =>
+  list.filter(x => getStringValue(prop, x).includes(val));
 
-export const nameStartsWith = (prop: string, val: string, list: {}[]) => 
-    list.filter(x => getStringValue(prop, x).startsWith(val));
+export const nameStartsWith = (prop: string, val: string, list: {}[]) =>
+  list.filter(x => getStringValue(prop, x).startsWith(val));
 
 export const topicStartsWith = (val: string, list: {}[]) => nameStartsWith('title', val, list);
 // export const  notActive = (list: {}) => compose
@@ -57,41 +57,95 @@ export interface PreviousPageAction {
   type: 'PREVIOUS_PAGE';
 }
 
-const topicArr  = [{title: 'Hello the'}, {title: 'The Big Hurt'}, {title: 'The Loser'}];
+const topicArr = [{ title: 'Hello the' }, { title: 'The Big Hurt' }, { title: 'The Loser' }];
 
 const topics: {
   [id: number]: Topic;
 } = {
-  1: {
-    id: 1,
-    title:
+    1: {
+      id: 1,
+      title:
       'The Rise and Fall and Rise Again of Functional Programming',
-  },
-  2: {
-    id: 2,
-    title:
+    },
+    2: {
+      id: 2,
+      title:
       'The Importance of Immutability',
-  },
-  3: {
-    id: 3,
-    title:
+    },
+    3: {
+      id: 3,
+      title:
       'Redux: The Ultimate State Management Machine',
-    pages: [],
-  },
-  4: {
-    id: 4,
-    title: 'The React Redux Connection',
-  },
-  5: {
-    id: 5,
-    title: 'React Redux Best Practices',
-  },
-}; /*? topics.length */
+      pages: [],
+    },
+    4: {
+      id: 4,
+      title: 'The React Redux Connection',
+    },
+    5: {
+      id: 5,
+      title: 'React Redux Best Practices',
+    },
+  }; /*? topics.length */
+
+export const insts = [{
+  id: 1,
+  name: 'Bank of America',
+  Regions: [{
+    statecode: 'CA',
+    name: 'California',
+    products: [
+      {
+        prodid: 1,
+        name: '3/1 ARM',
+      }, {
+        prodid: 1,
+        name: '5/1 ARM',
+      },
+    ]
+  }, {
+    statecode: 'NY',
+    name: 'New York',
+    products: [
+      {
+        prodid: 1,
+        name: '3/1 ARM',
+      }, {
+        prodid: 1,
+        name: '5/1 ARM',
+      },
+    ]
+  }
+  ]
+}, {
+  id: 2,
+  name: 'Citibank'
+}, {
+  id: 3,
+  name: 'Regions'
+}
+];
+
+interface TreeMeta {
+  id: string;
+  nameField: string;
+  arrayField: string;
+}
+
+export const treeMetas: TreeMeta[] = [{ id: 'id', nameField: 'name', arrayField: '' },
+{ id: 'statecode', nameField: 'name', arrayField: 'Regions' }, ];
+
+export const renderTree = (root: {}, meta: TreeMeta[]) => {
+  return meta.map((tm: TreeMeta, ind: number) => renderTreeLevel(root[0][tm.arrayField], tm));
+};
+
+export const renderTreeLevel = (arr: {}[], { id, nameField, arrayField }: TreeMeta) =>
+  arr.map(a => <h2 key={a[id]}>{a[nameField]}</h2>);
 
 export default class App extends React.Component<
   {},
   State
-> {
+  > {
   store: Redux.Store<State>;
 
   constructor() {
@@ -109,7 +163,7 @@ export default class App extends React.Component<
     if (
       e.keyCode === 39 &&
       this.state.activeTopicID <
-        this.state.max
+      this.state.max
     ) {
       this.store.dispatch({
         type: 'INCREMENT',
@@ -173,10 +227,15 @@ export default class App extends React.Component<
         </StretchPanel>
         <h4>
           {
-            JSON.stringify(topicArr.filter(({title}) => /The/.test(title)))}
+            JSON.stringify(topicArr.filter(({ title }) => /The/.test(title)))}
         </h4>
-       <h4> {JSON.stringify(topicStartsWith('The', topicArr))}</h4>
-       <h4> {JSON.stringify(topics[1])}</h4>
+        <h4> {JSON.stringify(topicStartsWith('The', topicArr))}</h4>
+        <h4> {JSON.stringify(topics[1])}</h4>
+
+        {
+          console.dir(insts[0]['Regions'])
+          // renderTree({ insts }, treeMetas)
+        }
       </div>
     );
   }
@@ -198,13 +257,13 @@ export default class App extends React.Component<
         return {
           ...state,
           activeTopicID:
-            state.activeTopicID + 1,
+          state.activeTopicID + 1,
         };
       case 'DECREMENT':
         return {
           ...state,
           activeTopicID:
-            state.activeTopicID - 1,
+          state.activeTopicID - 1,
         };
       default:
         return state;
