@@ -3,27 +3,29 @@ import Redux from 'react-redux';
 import Staggered from './Staggered';
 import './App.css';
 import Iconic from './Iconic';
-import {Motion, spring, presets} from 'react-motion';
+import { Motion, spring, presets } from 'react-motion';
 import StretchPanel from './StretchPanel';
 
-export const getStringValue = (prop : string, obj : {}) : string => obj[prop];
-export const nameContains = (prop : string, val : string, list : {}[]) => list.filter(x => getStringValue(prop, x).includes(val));
+export const getStringValue = (prop: string, obj: {}): string => obj[prop];
+export const nameContains = (prop: string, val: string, list: {}[]) =>
+  list.filter(x => getStringValue(prop, x).includes(val));
 
-export const nameStartsWith = (prop : string, val : string, list : {}[]) => list.filter(x => getStringValue(prop, x).startsWith(val));
+export const nameStartsWith = (prop: string, val: string, list: {}[]) =>
+  list.filter(x => getStringValue(prop, x).startsWith(val));
 
-export const topicStartsWith = (val : string, list : {}[]) => nameStartsWith('title', val, list);
+export const topicStartsWith = (val: string, list: {}[]) => nameStartsWith('title', val, list);
 // export const  notActive = (list: {}) => compose
 
 interface State {
-  activeTopicID : number;
-  alternate : boolean;
-  isOpen : boolean;
-  max : number;
+  activeTopicID: number;
+  alternate: boolean;
+  isOpen: boolean;
+  max: number;
 }
 
 interface Topic {
-  id : number;
-  title : string;
+  id: number;
+  title: string;
   description?: string;
   code?: string;
   pages?: JSX.Element[];
@@ -34,17 +36,17 @@ interface Topic {
 export type KnownAction = |IncrementAction | DecrementAction | NextPageAction | PreviousPageAction;
 
 export interface IncrementAction {
-  type : 'INCREMENT';
+  type: 'INCREMENT';
 }
 export interface DecrementAction {
-  type : 'DECREMENT';
+  type: 'DECREMENT';
 }
 
 export interface NextPageAction {
-  type : 'NEXT_PAGE';
+  type: 'NEXT_PAGE';
 }
 export interface PreviousPageAction {
-  type : 'PREVIOUS_PAGE';
+  type: 'PREVIOUS_PAGE';
 }
 
 const topicArr = [
@@ -57,31 +59,31 @@ const topicArr = [
   }
 ];
 
-const topics : {
-  [id : number] : Topic;
+const topics: {
+  [id: number]: Topic;
 } = {
-  1: {
-    id: 1,
-    title: 'The Rise and Fall and Rise Again of Functional Programming'
-  },
-  2: {
-    id: 2,
-    title: 'The Importance of Immutability'
-  },
-  3: {
-    id: 3,
-    title: 'Redux: The Ultimate State Management Machine',
-    pages: []
-  },
-  4: {
-    id: 4,
-    title: 'The React Redux Connection'
-  },
-  5: {
-    id: 5,
-    title: 'React Redux Best Practices'
-  }
-};/*? topics.length */
+    1: {
+      id: 1,
+      title: 'The Rise and Fall and Rise Again of Functional Programming'
+    },
+    2: {
+      id: 2,
+      title: 'The Importance of Immutability'
+    },
+    3: {
+      id: 3,
+      title: 'Redux: The Ultimate State Management Machine',
+      pages: []
+    },
+    4: {
+      id: 4,
+      title: 'The React Redux Connection'
+    },
+    5: {
+      id: 5,
+      title: 'React Redux Best Practices'
+    }
+  };
 
 export const insts = [
   {
@@ -126,12 +128,12 @@ export const insts = [
 ];
 
 interface TreeMeta {
-  id : string;
-  nameField : string;
-  arrayField : string;
+  id: string;
+  nameField: string;
+  arrayField: string;
 }
 
-export const treeMetas : TreeMeta[] = [
+export const treeMetas: TreeMeta[] = [
   {
     id: 'id',
     nameField: 'name',
@@ -143,35 +145,33 @@ export const treeMetas : TreeMeta[] = [
   }
 ];
 
-export const renderTree = (root : {}[], meta : TreeMeta[]) => {
-  const data : {}[] = [];
+export const renderTree = (root: {}[], meta: TreeMeta[]) => {
+  const data: {}[] = [];
 
-  meta.map((tm : TreeMeta, ind : number) => (ind === 0)
+  meta.map((tm: TreeMeta, ind: number) => (ind === 0)
     ? renderTreeLevel(root, tm, data, ind)
     : renderTreeLevel(root[0][tm.arrayField], tm, data, ind));
 
   return data;
 };
 
-export const renderTreeLevel = (arr : {}[], {id, nameField, arrayField} : TreeMeta, data : {}[], level : number) => {
-  let currlevel = null;
-  let renderChildren = false;
+export const renderTreeLevel = (arr: {}[], { id, nameField, arrayField }: TreeMeta, data: {}[], level: number) => {
+  // let currlevel = null;
+  // let renderChildren = false;
 
   // (currlevel !== level) ? data.push(<select />) : renderChildren = true;
 
   return (
     <select>
-      {arr.map(a => data.push(
-        <h2 key={a[id]}>{a[nameField]}</h2>
-      ));
-}
+      {
+        arr.map(a => <option key={a[id]}>{a[nameField]}</option>)}
     </select>
   );
 };
 
-export default class App extends React.Component < {},
-State > {
-  store: Redux.Store < State >;
+export default class App extends React.Component<{},
+  State> {
+  store: Redux.Store<State>;
 
   constructor() {
     super();
@@ -184,22 +184,22 @@ State > {
     };
   }
 
-  handleKeyUp = (e : KeyboardEvent) => {
+  handleKeyUp = (e: KeyboardEvent) => {
     if (e.keyCode === 39 && this.state.activeTopicID < this.state.max) {
       this
         .store
-        .dispatch({type: 'INCREMENT'});
+        .dispatch({ type: 'INCREMENT' });
     }
 
     if (e.keyCode === 37 && this.state.activeTopicID > 1) {
       this
         .store
-        .dispatch({type: 'DECREMENT'});
+        .dispatch({ type: 'DECREMENT' });
     }
   }
 
   componentWillMount() {
-    window.addEventListener('keyup', this.handleKeyUp,);
+    window.addEventListener('keyup', this.handleKeyUp, );
   }
 
   render() {
@@ -210,19 +210,21 @@ State > {
         <Motion
           key={activeTopic.id}
           defaultStyle={{
-          height: 30,
-          opacity: 0
-        }}
+            height: 30,
+            opacity: 0
+          }}
           style={{
-          height: spring(0, presets.wobbly,),
-          opacity: spring(1.0)
-        }}>
+            height: spring(0, presets.wobbly, ),
+            opacity: spring(1.0)
+          }}
+        >
           {value => <h1
             style={{
-            opacity: value.opacity,
-            transform: `translateY(${value.height}px)`,
-            overflow: 'hidden'
-          }}>
+              opacity: value.opacity,
+              transform: `translateY(${value.height}px)`,
+              overflow: 'hidden'
+            }}
+          >
             <Staggered textSize={1}>
               {`${activeTopic.id}. ${activeTopic.title}`}
             </Staggered>
@@ -230,10 +232,10 @@ State > {
         </Motion>
         {activeTopic.pages && activeTopic.pages[0]}
         <StretchPanel title="Home" isExpanded={false}>
-          <Iconic text="ME"/>
+          <Iconic text="ME" />
         </StretchPanel>
         <h4>
-          {JSON.stringify(topicArr.filter(({title}) => /The/.test(title)))}
+          {JSON.stringify(topicArr.filter(({ title }) => /The/.test(title)))}
         </h4>
         <h4>
           {JSON.stringify(topicStartsWith('The', topicArr))}</h4>
@@ -241,14 +243,14 @@ State > {
           {JSON.stringify(topics[1])}</h4>
 
         {// console.dir(insts[0]['Regions'])
-        renderTree(insts, treeMetas)}
+          renderTree(insts, treeMetas)}
       </div>
     );
   }
 
-  pager = (state : State, action : KnownAction,) => {
+  pager = (state: State, action: KnownAction, ) => {
     if (typeof state === 'undefined') {
-      return {activeTopicID: 1, max: 5, currPageNo: 0, topics: topics};
+      return { activeTopicID: 1, max: 5, currPageNo: 0, topics: topics };
     }
     switch (action.type) {
       case 'INCREMENT':
